@@ -3,9 +3,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = mongoose.Types.ObjectId
 
-console.log("Connected to")
-
-mongoose.connect('mongodb+srv://divakarmishra5301_db_user:Divakar%402704@cluster0.itwplte.mongodb.net/coursera-app')
 
 const userschema = new Schema({
     email: {type: String, unique: true},
