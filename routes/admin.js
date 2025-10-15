@@ -1,7 +1,9 @@
 const { Router } = require('express')
 const adminRouter = Router()
 
+
 const {Adminmodel} = require('../db')
+const { configDotenv } = require('dotenv')
 
 adminRouter.post('/signup', function(req, res){
     res.json({
@@ -15,25 +17,21 @@ adminRouter.post('/signin', function(req, res){
     })
 })
 
-adminRouter.post('/signin', function(req, res){
-    res.json({
-        message: "admin signin end point"
-    })
-})
-
-adminRouter.post('/course', function(req, res){
+//   /api/v1/course
+adminRouter.post('/', function(req, res){
     res.json({
         message: "Create course"
     })
 })
 
-adminRouter.put('/course', function(req, res){
+adminRouter.put('/', function(req, res){
     res.json({
         message: "Edit course"
     })
 })
+ 
 
-adminRouter.get('/course', function(req, res){
+adminRouter.get('/bulk', function(req, res){
     res.json({
         message: "Show me all my courses"
     })
