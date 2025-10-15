@@ -6,6 +6,7 @@ const {adminRouter} = require('./routes/admin.js')
 require('dotenv').config()
 
 const app = express()
+app.use(express.json())
 
 app.use('/api/v1/user', userRouter)
 app.use('/api/v1/admin', adminRouter)
