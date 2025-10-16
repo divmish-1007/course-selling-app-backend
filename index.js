@@ -15,7 +15,7 @@ app.use('/api/v1/course', courseRouter)
 const databaseUrl = process.env.DATABASE_URL
 
 async function main() {
-    await mongoose.connect(databaseUrl)
+    await mongoose.connect(process.env.DATABASE_URL)
     app.listen(3000)
     console.log("Listening on 3000 port")
 }

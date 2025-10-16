@@ -9,6 +9,7 @@ const { adminMiddleware } = require("../middlewares/admin.js")
 
 
 const {Adminmodel, Coursemodel} = require('../db')
+const admin = require('../middlewares/admin.js')
 
 
 adminRouter.post('/signup', async function(req, res){
@@ -85,18 +86,40 @@ adminRouter.post('/course', adminMiddleware, async function(req, res){
     })
 })
 
-adminRouter.put('/course', function(req, res){
+adminRouter.put('/course', adminMiddleware, async function(req, res){
     
+    const adminId = req.adminId
+    const {title, decription, price, imageUrl, courseId} = req.body
+
+    const course = await Coursemodel.updateOne({
+        _id: courseId,
+        creatorId: adminId
+    },
+        {
+        title:title,
+        decription: decription,
+        imageUrl: imageUrl,
+        price: price,
+    })
+
     res.json({
-        message: "Edit course"
+        message: "Course Updated",
+        courseId: course._id
     })
 })
  
 
-adminRouter.get('/bulk', function(req, res){
-    res.json({
-        message: "Show me all my courses"
+adminRouter.get('/course/bulk', adminMiddleware, async function(req, res){
+
+    const adminId = req.adminId
+    const courses = await Coursemodel.find({
+        creatorId:adminId
     })
+    res.json({
+        message:"Your all Courses",
+        courses
+    })
+    
 })
 
 module.exports = {
