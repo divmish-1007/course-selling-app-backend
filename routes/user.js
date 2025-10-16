@@ -7,7 +7,8 @@ const { JWT_USER_SECRET }= require("../config.js")
 
 
 
-const { Usermodel } = require("../db")
+const { Usermodel, Purchasemodel, Coursemodel } = require("../db")
+const { userMiddleware } = require('../middlewares/user.js')
 
 userRouter.post('/signup', async function (req, res) {
     const email = req.body.email
@@ -72,10 +73,19 @@ userRouter.post('/signin', async function (req, res) {
     }
 })
 
-userRouter.get('/purchase', function (req, res) {
+userRouter.get('/purchases', userMiddleware, async function (req, res) {
+    const userId = req.userId
+   
+    const purchases = await Purchasemodel.find({
+        userId
+    })
 
+    const courseData = await Coursemodel.find({
+        _id: { $in: purchases.map(x => x.courseId)}
+    })
     res.json({
-        message: "Courses purchased by a user"
+        purchases,
+        courseData
     })
 })
 
