@@ -1,0 +1,7 @@
+const JWT_USER_SECRET = "random@123"
+const JWT_ADMIN_SECRET = "123@random"
+
+module.exports = {
+    JWT_ADMIN_SECRET: JWT_ADMIN_SECRET,
+    JWT_USER_SECRET: JWT_USER_SECRET
+}

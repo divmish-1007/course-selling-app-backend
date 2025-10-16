@@ -3,10 +3,12 @@ const {Router} = require('express')
 const adminRouter = Router()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const JWT_ADMIN_SECRET = "123@random"
+const { JWT_ADMIN_SECRET } = require("../config.js")
+const { adminMiddleware } = require("../middlewares/admin.js")
 
 
-const {Adminmodel} = require('../db')
+
+const {Adminmodel, Coursemodel} = require('../db')
 
 
 adminRouter.post('/signup', async function(req, res){
@@ -34,12 +36,13 @@ adminRouter.post('/signup', async function(req, res){
 
 adminRouter.post('/signin', async function(req, res){
     const {email, password} = req.body
+
     const admin = await Adminmodel.findOne({
         email:email
     })
 
     if(!admin){
-        res.status(403).json({
+        res.status (403).json({
            message: "Admin with this email does not exist"
         })
     }
@@ -64,13 +67,26 @@ adminRouter.post('/signin', async function(req, res){
 
 })
 
-adminRouter.post('/course', function(req, res){
+adminRouter.post('/course', adminMiddleware, async function(req, res){
+    const adminId = req.adminId
+    const {title, description, imageUrl, price } = req.body
+
+    const course = await Coursemodel.create({
+        title:title,
+        description: description,
+        imageUrl: imageUrl,
+        price: price,
+        creatorId: adminId
+    })
+
     res.json({
-        message: "Create course"
+        message: "Course created",
+        courseId: course._id
     })
 })
 
 adminRouter.put('/course', function(req, res){
+    
     res.json({
         message: "Edit course"
     })

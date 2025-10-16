@@ -3,7 +3,7 @@ const {Router} = require('express')
 const userRouter = Router()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const JWT_USER_SECRET = "random@123"
+const { JWT_USER_SECRET }= require("../config.js")
 
 
 
